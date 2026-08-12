@@ -1,0 +1,56 @@
+name: CI
+
+# Le développement se fait sur des machines qui n'ont pas forcément Xcode.
+# Cette CI est donc la source de vérité : elle compile l'application pour le
+# simulateur iOS et exécute les tests du noyau métier à chaque poussée.
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build & tests (iOS)
+    runs-on: macos-14
+    timeout-minutes: 35
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Environnement
+        run: |
+          xcodebuild -version
+          swift --version
+
+      - name: Installer XcodeGen
+        run: brew install xcodegen
+
+      - name: Générer le projet Xcode
+        run: xcodegen generate
+
+      # Destination générique : pas besoin de démarrer un simulateur, et toutes
+      # les erreurs de compilation remontent.
+      - name: Compiler
+        run: |
+          set -o pipefail
+          xcodebuild build \
+            -project Expira.xcodeproj \
+            -scheme Expira \
+            -destination 'generic/platform=iOS Simulator' \
+            -quiet \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Tests du noyau métier
+        run: |
+          set -o pipefail
+          xcodebuild test \
+            -project Expira.xcodeproj \
+            -scheme Expira \
+            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            CODE_SIGNING_ALLOWED=NO \
+            | tail -n 200
