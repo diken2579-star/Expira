@@ -16,8 +16,10 @@ concurrency:
 jobs:
   build:
     name: Build & tests (iOS)
-    runs-on: macos-14
-    timeout-minutes: 35
+    # Xcode 16+ : XcodeGen produit un projet au format 77, que Xcode 15 ne sait
+    # pas lire. C'est aussi la version que les développeurs installeront.
+    runs-on: macos-15
+    timeout-minutes: 40
 
     steps:
       - uses: actions/checkout@v4
@@ -45,12 +47,32 @@ jobs:
             -quiet \
             CODE_SIGNING_ALLOWED=NO
 
+      # Le nom des simulateurs change d'une image de runner à l'autre :
+      # on choisit le premier iPhone disponible plutôt que de coder un nom en dur.
+      - name: Choisir un simulateur
+        id: sim
+        run: |
+          UDID=$(xcrun simctl list devices available --json | python3 -c '
+import json, sys
+devices = json.load(sys.stdin)["devices"]
+for runtime in sorted(devices, reverse=True):
+    if "iOS" not in runtime:
+        continue
+    for device in devices[runtime]:
+        if device.get("isAvailable") and "iPhone" in device["name"]:
+            print(device["udid"])
+            sys.exit(0)
+sys.exit(1)')
+          echo "udid=$UDID" >> "$GITHUB_OUTPUT"
+          xcrun simctl list devices available | grep -m1 -A0 "$UDID" || true
+
+      # `-quiet` laisse passer les échecs d'assertion, qui sortent en `error:`.
       - name: Tests du noyau métier
         run: |
           set -o pipefail
           xcodebuild test \
             -project Expira.xcodeproj \
             -scheme Expira \
-            -destination 'platform=iOS Simulator,name=iPhone 15' \
-            CODE_SIGNING_ALLOWED=NO \
-            | tail -n 200
+            -destination "id=${{ steps.sim.outputs.udid }}" \
+            -quiet \
+            CODE_SIGNING_ALLOWED=NO
