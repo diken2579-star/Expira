@@ -175,3 +175,10 @@ private struct AnalyticsLogView: View {
         }
     }
 }
+\n
+#if DEBUG
+#Preview("Confidentialité") {
+    PrivacyView()
+        .environment(AppEnvironment.preview())
+}
+#endif

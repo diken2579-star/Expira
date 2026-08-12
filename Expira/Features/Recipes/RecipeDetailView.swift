@@ -273,3 +273,15 @@ private struct IngredientRow: View {
         .accessibilityLabel(isAvailable ? "\(name), disponible" : "\(name), manquant")
     }
 }
+\n
+#if DEBUG
+#Preview("Détail recette") {
+    let environment = AppEnvironment.preview()
+    if let match = SampleData.recipeMatch {
+        RecipeDetailView(match: match)
+            .environment(environment)
+    } else {
+        Text("Aucune recette ne correspond au jeu de démonstration.")
+    }
+}
+#endif

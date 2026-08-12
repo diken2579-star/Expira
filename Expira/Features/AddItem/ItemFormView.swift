@@ -271,3 +271,28 @@ private struct CategoryChip: View {
         .accessibilityAddTraits(isSelected ? [.isSelected] : [])
     }
 }
+\n
+#if DEBUG
+#Preview("Nouvel aliment") {
+    let environment = AppEnvironment.preview()
+    ItemFormView(draft: .new(estimator: environment.estimator), mode: .create) { _ in }
+        .environment(environment)
+}
+
+#Preview("Fiche pré-remplie par un scan") {
+    let environment = AppEnvironment.preview()
+    ItemFormView(
+        draft: .from(
+            product: ProductInfo(
+                barcode: "3033490004743",
+                name: "Crème fraîche épaisse 30%",
+                brand: "Elle & Vire",
+                category: .dairy
+            ),
+            estimator: environment.estimator
+        ),
+        mode: .create
+    ) { _ in }
+    .environment(environment)
+}
+#endif

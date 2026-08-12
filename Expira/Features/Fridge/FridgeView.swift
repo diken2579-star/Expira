@@ -295,3 +295,17 @@ struct FridgeView: View {
         }
     }
 }
+\n
+#if DEBUG
+#Preview("Frigo rempli") {
+    FridgeView()
+        .environment(AppEnvironment.preview())
+}
+
+// Les états vides comptent autant que les états remplis — ce sont ceux
+// qu'on oublie de regarder.
+#Preview("Frigo vide") {
+    FridgeView()
+        .environment(AppEnvironment.previewEmpty())
+}
+#endif

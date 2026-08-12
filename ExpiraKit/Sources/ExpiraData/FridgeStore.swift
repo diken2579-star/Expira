@@ -192,6 +192,17 @@ public final class FridgeStore {
         max(0, FreeTierLimits.maxActiveItems - activeItems.count)
     }
 
+    #if DEBUG
+    /// Injecte un historique de démonstration. Réservé aux aperçus et aux tests :
+    /// l'historique réel ne s'écrit qu'en sortant un aliment du stock.
+    public func seedHistory(_ events: [HistoryEvent]) {
+        for event in events {
+            context.insert(StoredHistoryEvent(event))
+        }
+        _ = save()
+    }
+    #endif
+
     // MARK: - Interne
 
     private func storedItem(id: UUID) -> StoredFoodItem? {

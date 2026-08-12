@@ -53,19 +53,31 @@ public final class AppEnvironment {
     private let container: ModelContainer
     private let funnelTracker: LocalFunnelTracker
 
+    /// Domaine `UserDefaults` volatil utilisé par les aperçus et les tests.
+    static let previewSuiteName = "app.expira.ephemeral"
+
     public init(inMemory: Bool = false) {
         let containerResult = ExpiraModelContainer.make(inMemory: inMemory)
         self.container = containerResult.container
         self.isUsingTemporaryStorage = containerResult.isFallback && !inMemory
 
-        let preferences = UserPreferences()
+        // En mémoire (aperçus, tests) : réglages isolés et repartant à zéro, pour
+        // ne jamais écraser ceux de l'app réelle installée sur le même simulateur.
+        let defaults: UserDefaults
+        if inMemory, let volatile = UserDefaults(suiteName: Self.previewSuiteName) {
+            volatile.removePersistentDomain(forName: Self.previewSuiteName)
+            defaults = volatile
+        } else {
+            defaults = .standard
+        }
+
+        let preferences = UserPreferences(defaults: defaults)
         self.preferences = preferences
         self.fridge = FridgeStore(context: ModelContext(containerResult.container))
 
         // Le tracker relit le consentement à chaque événement, directement dans
         // `UserDefaults` : couper la mesure d'audience dans les réglages prend
         // effet immédiatement, et la lecture reste sûre depuis n'importe quel fil.
-        let defaults = UserDefaults.standard
         let consentKey = UserPreferences.analyticsEnabledKey
         let tracker = LocalFunnelTracker(isEnabled: {
             defaults.object(forKey: consentKey) as? Bool ?? true
@@ -74,7 +86,7 @@ public final class AppEnvironment {
         let analytics = CompositeAnalyticsTracker([tracker, ConsoleAnalyticsTracker()])
         self.analytics = analytics
 
-        self.subscriptions = SubscriptionService(analytics: analytics)
+        self.subscriptions = SubscriptionService(defaults: defaults, analytics: analytics)
         self.notifications = NotificationService()
         self.productLookup = CachedProductLookupService()
 

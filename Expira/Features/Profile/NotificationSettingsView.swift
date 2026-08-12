@@ -115,3 +115,10 @@ struct NotificationSettingsView: View {
         }
     }
 }
+\n
+#if DEBUG
+#Preview("Réglages notifications") {
+    NotificationSettingsView()
+        .environment(AppEnvironment.preview())
+}
+#endif

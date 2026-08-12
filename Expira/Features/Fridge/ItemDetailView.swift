@@ -231,3 +231,18 @@ private struct DetailRow: View {
         .accessibilityElement(children: .combine)
     }
 }
+\n
+#if DEBUG
+#Preview("Détail — date estimée") {
+    ItemDetailView(item: SampleData.urgentItem)
+        .environment(AppEnvironment.preview())
+}
+
+#Preview("Détail — date lue sur l'emballage") {
+    ItemDetailView(
+        item: SampleData.item("Blanc de poulet", brand: "Le Gaulois", category: .poultry,
+                              expiresIn: 0, source: .label, quantity: 400, unit: .gram)
+    )
+    .environment(AppEnvironment.preview())
+}
+#endif

@@ -170,3 +170,15 @@ struct RecipeCard: View {
         .accessibilityElement(children: .combine)
     }
 }
+\n
+#if DEBUG
+#Preview("Recettes") {
+    RecipesView()
+        .environment(AppEnvironment.preview())
+}
+
+#Preview("Recettes — frigo vide") {
+    RecipesView()
+        .environment(AppEnvironment.previewEmpty())
+}
+#endif

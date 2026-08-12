@@ -67,3 +67,10 @@ struct MainTabView: View {
         }
     }
 }
+\n
+#if DEBUG
+#Preview("Application complète") {
+    RootView()
+        .environment(AppEnvironment.preview())
+}
+#endif
