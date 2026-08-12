@@ -1,0 +1,74 @@
+{
+  "identifier" : "EXPIRA-STOREKIT-CONFIG",
+  "nonRenewingSubscriptions" : [],
+  "products" : [],
+  "settings" : {
+    "_applicationInternalID" : "0000000000",
+    "_developerTeamID" : "",
+    "_lastSynchronizedDate" : 0
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "21563789",
+      "localizations" : [
+        {
+          "description" : "Tout Expira, sans limite.",
+          "displayName" : "Expira Premium",
+          "locale" : "fr_FR"
+        }
+      ],
+      "name" : "Expira Premium",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [],
+          "codeOffers" : [],
+          "displayPrice" : "29.99",
+          "familyShareable" : true,
+          "groupNumber" : 1,
+          "internalID" : "6742100001",
+          "introductoryOffer" : {
+            "internalID" : "6742100011",
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P1W"
+          },
+          "localizations" : [
+            {
+              "description" : "Aliments illimités, scan de date, plan de sauvetage et recettes illimitées.",
+              "displayName" : "Expira Premium — Annuel",
+              "locale" : "fr_FR"
+            }
+          ],
+          "productID" : "app.expira.premium.annual",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Expira Premium Annuel",
+          "subscriptionGroupID" : "21563789",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [],
+          "codeOffers" : [],
+          "displayPrice" : "4.99",
+          "familyShareable" : true,
+          "groupNumber" : 2,
+          "internalID" : "6742100002",
+          "localizations" : [
+            {
+              "description" : "Aliments illimités, scan de date, plan de sauvetage et recettes illimitées.",
+              "displayName" : "Expira Premium — Mensuel",
+              "locale" : "fr_FR"
+            }
+          ],
+          "productID" : "app.expira.premium.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Expira Premium Mensuel",
+          "subscriptionGroupID" : "21563789",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}
