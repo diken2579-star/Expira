@@ -11,6 +11,10 @@ options:
     iOS: "17.0"
   createIntermediateGroups: true
   groupSortPosition: top
+  # Format de projet Xcode 15. Les versions récentes de XcodeGen produisent par
+  # défaut le format 77 (Xcode 16+), illisible par Xcode 15. Le format 56
+  # s'ouvre dans les deux, on le fixe donc explicitement.
+  objectVersion: 56
 
 packages:
   ExpiraKit:
