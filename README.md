@@ -47,6 +47,9 @@ code en découle directement.
 
 ## Démarrer
 
+**Prérequis : macOS avec Xcode 16 ou plus récent.** XcodeGen génère un projet au
+format 77, que Xcode 15 ne sait pas ouvrir.
+
 ```bash
 brew install xcodegen     # une seule fois
 make open                 # génère Expira.xcodeproj et l'ouvre
@@ -56,6 +59,30 @@ make test                 # tests unitaires du noyau métier
 Le `.xcodeproj` n'est pas versionné : il est régénéré depuis `project.yml`.
 Le schéma est préconfiguré avec `Expira.storekit`, ce qui permet de tester
 l'abonnement sans compte App Store Connect.
+
+### Ce qui marche dans le simulateur
+
+Onboarding, frigo, recettes, plan de sauvetage, bilan et paywall fonctionnent
+au simulateur. **Le scan de code-barres et l'OCR de date demandent un iPhone
+physique** : le simulateur n'a pas de caméra, et l'app bascule alors
+automatiquement sur ses replis manuels — ce qui permet au passage de vérifier
+que ces replis sont corrects.
+
+### Aperçus Xcode
+
+Chacun des 12 écrans principaux porte un `#Preview` alimenté par `SampleData`
+(`Expira/Support/PreviewSupport.swift`), avec sa variante « état vide ».
+Le jeu de démonstration couvre volontairement tous les niveaux d'urgence et les
+deux sources de date : c'est la seule façon de voir d'un coup d'œil si la
+hiérarchie visuelle tient. Les aperçus tournent sur une base en mémoire et un
+domaine `UserDefaults` volatil — ils n'écrasent jamais les données de l'app.
+
+### Intégration continue
+
+`.github/workflows/ci.yml` compile l'app pour le simulateur iOS et exécute
+`ExpiraCoreTests` sur un runner macOS à chaque poussée. C'est la source de
+vérité du projet : le code peut être écrit depuis n'importe quelle machine, la
+CI dit s'il compile.
 
 ## Structure
 
