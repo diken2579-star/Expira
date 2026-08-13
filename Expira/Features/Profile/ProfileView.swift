@@ -243,7 +243,6 @@ extension Bundle {
         return "\(version) (\(build))"
     }
 }
-\n
 #if DEBUG
 #Preview("Profil avec bilan") {
     ProfileView()

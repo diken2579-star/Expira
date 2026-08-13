@@ -231,7 +231,6 @@ private struct DetailRow: View {
         .accessibilityElement(children: .combine)
     }
 }
-\n
 #if DEBUG
 #Preview("Détail — date estimée") {
     ItemDetailView(item: SampleData.urgentItem)

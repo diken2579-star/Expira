@@ -115,7 +115,6 @@ struct NotificationSettingsView: View {
         }
     }
 }
-\n
 #if DEBUG
 #Preview("Réglages notifications") {
     NotificationSettingsView()

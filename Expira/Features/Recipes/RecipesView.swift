@@ -170,7 +170,6 @@ struct RecipeCard: View {
         .accessibilityElement(children: .combine)
     }
 }
-\n
 #if DEBUG
 #Preview("Recettes") {
     RecipesView()

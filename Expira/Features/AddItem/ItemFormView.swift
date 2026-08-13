@@ -271,7 +271,6 @@ private struct CategoryChip: View {
         .accessibilityAddTraits(isSelected ? [.isSelected] : [])
     }
 }
-\n
 #if DEBUG
 #Preview("Nouvel aliment") {
     let environment = AppEnvironment.preview()

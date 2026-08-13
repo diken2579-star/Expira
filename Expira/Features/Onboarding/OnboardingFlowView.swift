@@ -482,7 +482,6 @@ private struct ProgressDots: View {
         .accessibilityLabel("Étape \(current + 1) sur \(count)")
     }
 }
-\n
 #if DEBUG
 #Preview("Onboarding") {
     OnboardingFlowView()

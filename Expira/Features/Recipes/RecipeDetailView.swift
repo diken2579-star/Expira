@@ -273,7 +273,6 @@ private struct IngredientRow: View {
         .accessibilityLabel(isAvailable ? "\(name), disponible" : "\(name), manquant")
     }
 }
-\n
 #if DEBUG
 #Preview("Détail recette") {
     let environment = AppEnvironment.preview()

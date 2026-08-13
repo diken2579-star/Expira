@@ -175,7 +175,6 @@ private struct AnalyticsLogView: View {
         }
     }
 }
-\n
 #if DEBUG
 #Preview("Confidentialité") {
     PrivacyView()

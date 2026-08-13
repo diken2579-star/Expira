@@ -226,7 +226,6 @@ private struct PlanDayCard: View {
         .accessibilityLabel("\(day.title) : \(day.suggestion)")
     }
 }
-\n
 #if DEBUG
 #Preview("Plan de sauvetage") {
     RescuePlanView()

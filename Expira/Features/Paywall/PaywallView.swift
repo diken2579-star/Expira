@@ -346,7 +346,6 @@ private struct OfferCard: View {
         return isBestValue ? "Facturé une fois par an" : "Facturé chaque mois"
     }
 }
-\n
 #if DEBUG
 // Les prix restent vides en aperçu : StoreKit n'y répond pas. C'est justement
 // l'occasion de vérifier que l'écran reste présentable sans catalogue.

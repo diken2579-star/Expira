@@ -295,7 +295,6 @@ struct FridgeView: View {
         }
     }
 }
-\n
 #if DEBUG
 #Preview("Frigo rempli") {
     FridgeView()

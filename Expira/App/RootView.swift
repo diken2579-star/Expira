@@ -67,7 +67,6 @@ struct MainTabView: View {
         }
     }
 }
-\n
 #if DEBUG
 #Preview("Application complète") {
     RootView()
